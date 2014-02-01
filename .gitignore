@@ -1,0 +1,12 @@
+[Oo]bj/
+[Tt]emp/
+[Ll]ibrary/
+
+*.tmproj
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.user
+*.pidb
+*.userprefs
