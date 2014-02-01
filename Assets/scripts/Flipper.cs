@@ -3,7 +3,8 @@ using System.Collections;
 
 public class Flipper : MonoBehaviour {
 
-	public bool right;
+	public enum Side {left, right};
+	public Side side;
 
 	public float maxAngle = 60f;
 	public float speed = 100f;
@@ -22,14 +23,15 @@ public class Flipper : MonoBehaviour {
 		spring.spring = speed;
 		spring.damper = 1f;
 
-		if (!right)
+		if (side == Side.left)
 			maxAngle = -maxAngle;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		if (Input.GetKey(KeyCode.RightShift))
+		if ((side == Side.right && Input.GetKey(KeyCode.RightShift))
+		    || (side == Side.left && Input.GetKey(KeyCode.LeftShift)))
 			spring.targetPosition = maxAngle;
 		else
 			spring.targetPosition = 0f;
