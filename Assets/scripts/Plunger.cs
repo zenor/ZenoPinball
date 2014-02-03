@@ -13,12 +13,14 @@ public class Plunger : MonoBehaviour {
 	bool _resetting;
 	bool _active;
 	Vector3 _startPos;
+	Vector3 _ballStartPos;
 
 
 	// Use this for initialization
 	void Start () {
 		_active = true;
 		_startPos = gameObject.transform.position;
+		_ballStartPos = ball.transform.position;
 	}
 	
 	// Update is called once per frame
@@ -33,12 +35,11 @@ public class Plunger : MonoBehaviour {
 			ball.transform.Translate(moveAmount);
 		}
 
-		if (Input.GetKeyUp(KeyCode.Space))
+		if (_active && Input.GetKeyUp(KeyCode.Space))
 		{
 			float distance = Mathf.Abs(gameObject.transform.position.z - _startPos.z);
 			Debug.Log("adding force " + maxForce * distance);
 			ball.rigidbody.AddForce(0f, 0f, maxForce * distance);
-			//gameObject.transform.position = _startPos;
 			_resetting = true;
 			_active = false;
 		}
@@ -53,6 +54,14 @@ public class Plunger : MonoBehaviour {
 			else
 				_resetting = false;
 		}
+	}
+
+	public void Reload() {
+		ball.rigidbody.velocity = Vector3.zero;
+		ball.rigidbody.angularVelocity = Vector3.zero;
+		ball.transform.localRotation = Quaternion.identity;
+		ball.transform.position = _ballStartPos;
+		_active = true;
 	}
 
 	public bool active {

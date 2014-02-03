@@ -4,10 +4,12 @@ using System.Collections;
 public class GameManager : MonoBehaviour {
 
 	public GameObject scoreTextObject;
+	public GameObject plunger;
+
 	TextMesh _scoreText;
 
 	int _score;
-	int _balls = 3;
+	int _ballsRemaining = 2;
 
 	// Use this for initialization
 	void Start () {
@@ -22,9 +24,19 @@ public class GameManager : MonoBehaviour {
 
 	public void AddPoints(int points) {
 		_score += points;
-		Debug.Log("Added " + points + "to total score upto " + _score);
 		OnGUI();
 		_scoreText.text = "Score: " + _score;
+	}
+
+	public void BallOver() {
+		_ballsRemaining--;
+		if (_ballsRemaining >= 0)
+			StartCoroutine(ReloadBall());
+	}
+
+	public IEnumerator ReloadBall() {
+		yield return new WaitForSeconds(2);
+		plunger.GetComponent<Plunger>().Reload();
 	}
 
 	void OnGUI() {
