@@ -64,6 +64,7 @@ public class GameManager : MonoBehaviour {
 			PlayerPrefs.SetInt(PPKEY_HI_SCORE_1, _hiScore);
 			setHiScoreText();
 		}
+		_ballsRemainingText.text = "Game Over";
 	}
 
 	void setScoreText() {
@@ -79,6 +80,6 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void OnGUI() {
-		GUI.Label(new Rect(10, 0, 100, 50), "Score: " + _score);
+		//GUI.Label(new Rect(10, 0, 100, 50), "Score: " + _score);
 	} 
 }
