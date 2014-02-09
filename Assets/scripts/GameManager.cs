@@ -5,15 +5,11 @@ public class GameManager : MonoBehaviour {
 
 	const string PPKEY_HI_SCORE_1 = "HiScore1";
 
-	public GameObject scoreTextObject;
-	public GameObject hiScoreTextObject;
-	public GameObject ballsRemainingTextObject;
-	public GameObject plunger;
+	public TextMesh scoreTextObject;
+	public TextMesh hiScoreTextObject;
+	public TextMesh ballsRemainingTextObject;
+	public Plunger plunger;
 	public Gate gate;
-
-	TextMesh _scoreText;
-	TextMesh _hiScoreText;
-	TextMesh _ballsRemainingText;
 
 	int _score;
 	int _hiScore;
@@ -22,14 +18,8 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		_hiScore = PlayerPrefs.GetInt(PPKEY_HI_SCORE_1, 0);
-
-		_scoreText = scoreTextObject.GetComponent<TextMesh>();
 		setScoreText();
-
-		_hiScoreText = hiScoreTextObject.GetComponent<TextMesh>();
 		setHiScoreText();
-
-		_ballsRemainingText = ballsRemainingTextObject.GetComponent<TextMesh>();
 		setBallsRemainingText();
 	}
 	
@@ -58,7 +48,7 @@ public class GameManager : MonoBehaviour {
 
 	public IEnumerator ReloadBall() {
 		yield return new WaitForSeconds(2);
-		plunger.GetComponent<Plunger>().Reload();
+		plunger.Reload();
 	}
 
 	void GameOver() {
@@ -67,19 +57,19 @@ public class GameManager : MonoBehaviour {
 			PlayerPrefs.SetInt(PPKEY_HI_SCORE_1, _hiScore);
 			setHiScoreText();
 		}
-		_ballsRemainingText.text = "Game Over";
+		ballsRemainingTextObject.text = "Game Over";
 	}
 
 	void setScoreText() {
-		_scoreText.text = "Score: " + _score;
+		scoreTextObject.text = "Score: " + _score;
 	}
 
 	void setHiScoreText() {
-		_hiScoreText.text = "Hi Score: " + _hiScore;
+		hiScoreTextObject.text = "Hi Score: " + _hiScore;
 	}
 
 	void setBallsRemainingText() {
-		_ballsRemainingText.text = "Balls Remaining: " + _ballsRemaining;
+		ballsRemainingTextObject.text = "Balls Remaining: " + _ballsRemaining;
 	}
 
 	void OnGUI() {

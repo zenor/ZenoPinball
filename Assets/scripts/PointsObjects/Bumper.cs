@@ -17,7 +17,6 @@ public class Bumper : PointsGiver {
 		base.Start();
 		_meshTransform = gameObject.transform.GetChild(0);
 		_camera = GameObject.Find("Main Camera").GetComponent<CameraTricks>();
-		Debug.Log("camera? " + _camera.ToString());
 	}
 	
 	// Update is called once per frame

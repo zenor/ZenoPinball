@@ -38,7 +38,6 @@ public class Plunger : MonoBehaviour {
 		if (_active && Input.GetKeyUp(KeyCode.Space))
 		{
 			float distance = Mathf.Abs(gameObject.transform.position.z - _startPos.z);
-			Debug.Log("adding force " + maxForce * distance);
 			ball.rigidbody.AddForce(0f, 0f, maxForce * distance);
 			_resetting = true;
 			_active = false;
