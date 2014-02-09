@@ -1,17 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class ToggleSwitchGroup : MonoBehaviour {
+public class ToggleSwitchGroup : PointsGiver {
 
-	public int completePoints = 500;
-
-	GameManager _gameManager;
 	List<ToggleSwitch> _switches = new List<ToggleSwitch>();
 	List<bool> _currStates = new List<bool>();
 
 	// Use this for initialization
 	void Start () {
-		_gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+		base.Start();
 		foreach(ToggleSwitch ts in gameObject.GetComponentsInChildren<ToggleSwitch>()) {
 			_switches.Add(ts);
 			_currStates.Add(ts.active);
@@ -48,7 +45,7 @@ public class ToggleSwitchGroup : MonoBehaviour {
 				isComplete = false;
 		}
 		if (isComplete) {
-			_gameManager.AddPoints(completePoints);
+			AddPoints();
 			for (int i = 0; i < _switches.Count; ++i) {
 				_switches[i].active = false;
 				_currStates[i] = false;

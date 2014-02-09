@@ -1,12 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ToggleSwitch : MonoBehaviour {
+public class ToggleSwitch : PointsGiver {
 
 	public float inactiveOffset = 0.07f;
-	public int points = 20;
 
-	GameManager _gameManager;
 	ToggleSwitchGroup _group;
 	bool _active = false;
 	Vector3 _offPos;
@@ -14,7 +12,7 @@ public class ToggleSwitch : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		_gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+		base.Start();
 		_onPos = gameObject.transform.position;
 		_offPos = _onPos;
 		_offPos.y -= inactiveOffset;
@@ -49,7 +47,7 @@ public class ToggleSwitch : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider collider) {
-		_gameManager.AddPoints(points);
+		AddPoints();
 		Toggle();
 	}
 }
