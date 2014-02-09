@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour {
 	public GameObject hiScoreTextObject;
 	public GameObject ballsRemainingTextObject;
 	public GameObject plunger;
+	public Gate gate;
 
 	TextMesh _scoreText;
 	TextMesh _hiScoreText;
@@ -45,6 +46,8 @@ public class GameManager : MonoBehaviour {
 
 	public void BallOver() {
 		_ballsRemaining--;
+		gate.Open();
+
 		if (_ballsRemaining >= 0) {
 			setBallsRemainingText();
 			StartCoroutine(ReloadBall());
