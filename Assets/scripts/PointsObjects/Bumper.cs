@@ -4,6 +4,9 @@ using System.Collections;
 public class Bumper : PointsGiver {
 
 	public float scaleTo = 1.2f;
+	public float cameraShake = 0.008f;
+
+	CameraTricks _camera;
 
 	Transform _meshTransform;
 	bool _scaling;
@@ -13,6 +16,8 @@ public class Bumper : PointsGiver {
 	void Start () {
 		base.Start();
 		_meshTransform = gameObject.transform.GetChild(0);
+		_camera = GameObject.Find("Main Camera").GetComponent<CameraTricks>();
+		Debug.Log("camera? " + _camera.ToString());
 	}
 	
 	// Update is called once per frame
@@ -34,6 +39,7 @@ public class Bumper : PointsGiver {
 
 	void OnCollisionEnter (Collision collision) {
 		AddPoints();
+		_camera.Shake(cameraShake);
 		_scaling = true;
 	}
 }
