@@ -24,7 +24,7 @@ public class Plunger : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 		if (!_resetting && _active
 		    && Input.GetKey(KeyCode.Space) 
 		    && Mathf.Abs(gameObject.transform.position.z - _startPos.z) < 1f)
