@@ -49,14 +49,16 @@ public class GameManager : MonoBehaviour {
 	public void BallOver() {
 		_ballsRemaining--;
 		gate.Open();
-		Message("Oh no!");
 
 		if (_ballsRemaining >= 0) {
+			Message("Oh no!");
 			setBallsRemainingText();
 			StartCoroutine(ReloadBall());
 		}
-		else
+		else {
+			Message("Game Over");
 			GameOver();
+		}
 	}
 
 	public IEnumerator ReloadBall() {
@@ -70,7 +72,7 @@ public class GameManager : MonoBehaviour {
 			PlayerPrefs.SetInt(PPKEY_HI_SCORE_1, _hiScore);
 			setHiScoreText();
 		}
-		ballsRemainingTextObject.text = "Game Over";
+		ballsRemainingTextObject.text = "Thanks for Playing!";
 	}
 
 	void setScoreText() {
