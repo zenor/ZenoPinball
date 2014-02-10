@@ -9,6 +9,10 @@ public class ToggleSwitchGroup : PointsGiver {
 	// Use this for initialization
 	void Start () {
 		base.Start();
+		Reset();
+	}
+
+	public void Reset() {
 		foreach(ToggleSwitch ts in gameObject.GetComponentsInChildren<ToggleSwitch>()) {
 			_switches.Add(ts);
 			_currStates.Add(ts.active);
