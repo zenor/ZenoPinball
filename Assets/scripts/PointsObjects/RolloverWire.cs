@@ -14,6 +14,7 @@ public class RolloverWire : PointsGiver {
 	}
 
 	void OnTriggerEnter(Collider collider) {
-		AddPoints();
+		if (collider.tag == "Ball")
+			AddPoints();
 	}
 }

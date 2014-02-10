@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour {
 
 	public TextMesh scoreTextObject;
 	public TextMesh hiScoreTextObject;
+	public TextMesh messages;
 	public TextMesh ballsRemainingTextObject;
 	public Plunger plunger;
 	public Gate gate;
@@ -21,6 +22,7 @@ public class GameManager : MonoBehaviour {
 		setScoreText();
 		setHiScoreText();
 		setBallsRemainingText();
+		Message("Good Luck");
 	}
 	
 	// Update is called once per frame
@@ -30,13 +32,24 @@ public class GameManager : MonoBehaviour {
 
 	public void AddPoints(int points) {
 		_score += points;
-		OnGUI();
 		setScoreText();
+	}
+
+	public void Message(string text) {
+		messages.text = text;
+		StopCoroutine("BlankMessage");
+		StartCoroutine("BlankMessage");
+	}
+
+	IEnumerator BlankMessage() {
+		yield return new WaitForSeconds(1);
+		messages.text = "";
 	}
 
 	public void BallOver() {
 		_ballsRemaining--;
 		gate.Open();
+		Message("Oh no!");
 
 		if (_ballsRemaining >= 0) {
 			setBallsRemainingText();

@@ -37,8 +37,10 @@ public class Bumper : PointsGiver {
 	}
 
 	void OnCollisionEnter (Collision collision) {
-		AddPoints();
-		_camera.Shake(cameraShake);
-		_scaling = true;
+		if (collision.transform.tag == "Ball") {
+			AddPoints();
+			_camera.Shake(cameraShake);
+			_scaling = true;
+		}
 	}
 }

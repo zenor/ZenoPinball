@@ -47,7 +47,9 @@ public class ToggleSwitch : PointsGiver {
 	}
 
 	void OnTriggerEnter(Collider collider) {
-		AddPoints();
-		Toggle();
+		if (collider.tag == "Ball") {
+			AddPoints();
+			Toggle();
+		}
 	}
 }

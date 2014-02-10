@@ -4,6 +4,7 @@ using System.Collections;
 public abstract class PointsGiver : MonoBehaviour {
 
 	public int points = 10;
+	public string message = "";
 
 	GameManager _gameManager;
 
@@ -19,5 +20,6 @@ public abstract class PointsGiver : MonoBehaviour {
 
 	protected void AddPoints() {
 		_gameManager.AddPoints(points);
+		_gameManager.Message(message);
 	}
 }
