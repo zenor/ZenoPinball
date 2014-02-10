@@ -37,8 +37,10 @@ public class Plunger : MonoBehaviour {
 
 		if (_active && Input.GetKeyUp(KeyCode.Space))
 		{
-			float distance = Mathf.Abs(gameObject.transform.position.z - _startPos.z);
-			ball.rigidbody.AddForce(0f, 0f, maxForce * distance);
+			if (Mathf.Abs(transform.position.z) - Mathf.Abs(ball.transform.position.z) < 1f) {
+				float distance = Mathf.Abs(gameObject.transform.position.z - _startPos.z);
+				ball.rigidbody.AddForce(0f, 0f, maxForce * distance);
+			}
 			_resetting = true;
 			_active = false;
 		}
@@ -65,5 +67,10 @@ public class Plunger : MonoBehaviour {
 
 	public bool active {
 		set {_active = value;}
+	}
+
+	void OnCollisionEnter(Collision collision) {
+		Debug.Log("coll");
+		_active = true;
 	}
 }
