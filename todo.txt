@@ -1,0 +1,13 @@
+Gameover
+Menu system
+
+Random special changes on hitting certain triggers:
+	lights out mode - light goes off, spotlight on ball for 10s
+	multiball
+
+Sound Effects
+
+Polish
+	Colour change on toggleswitches
+	Vapour trails
+	background
