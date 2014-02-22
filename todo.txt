@@ -9,6 +9,5 @@ Random special changes on hitting certain triggers:
 Sound Effects
 
 Polish
-	Colour change on toggleswitches
 	Vapour trails
 	background
