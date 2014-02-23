@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour {
 		setScoreText();
 		setHiScoreText();
 		setBallsRemainingText();
-		Message("Good Luck");
+		Message(Constants.Messages.StartGoodLuck);
 	}
 	
 	// Update is called once per frame
@@ -49,16 +49,16 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void BallOver() {
-		_ballsRemaining--;
+		//_ballsRemaining--;
 		gate.Open();
 
 		if (_ballsRemaining >= 0) {
-			Message("Oh no!");
+			Message(Constants.Messages.BallOver);
 			setBallsRemainingText();
 			StartCoroutine(ReloadBall());
 		}
 		else {
-			Message("Game Over");
+			Message(Constants.Messages.GameOver);
 			GameOver();
 		}
 	}
