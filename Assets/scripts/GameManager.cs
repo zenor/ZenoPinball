@@ -86,6 +86,11 @@ public class GameManager : MonoBehaviour {
 			setHiScoreText();
 		}
 		ballsRemainingTextObject.text = "Thanks for Playing!";
+		StartCoroutine(WaitForReset());
+	}
+
+	IEnumerator WaitForReset() {
+		yield return new WaitForSeconds(2);
 		Reset();
 	}
 
@@ -93,6 +98,13 @@ public class GameManager : MonoBehaviour {
 		foreach (IResetable component in _resetables) {
 			component.Reset();
 		}
+		_score = 0;
+		setScoreText();
+
+		_ballsRemaining = 2;
+		setBallsRemainingText();
+		gate.Open();
+		plunger.Reload();
 	}
 
 	void setScoreText() {
