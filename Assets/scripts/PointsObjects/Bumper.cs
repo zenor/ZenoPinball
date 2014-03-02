@@ -42,11 +42,7 @@ public class Bumper : PointsGiver {
 			AddPoints();
 			_camera.Shake(cameraShake);
 			_scaling = true;
-		}
-	}
 
-	void OnCollisionExit (Collision collision) {
-		if (collision.transform.tag == "Ball") {
 			if (collision.rigidbody.velocity.magnitude < Constants.Ball.MaxVelocity) {
 				Debug.Log("ball velocity: " + collision.rigidbody.velocity.magnitude);
 				float x = collision.rigidbody.velocity.x > 0 ? kickerForce : -kickerForce;
