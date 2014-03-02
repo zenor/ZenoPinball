@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ToggleSwitch : PointsGiver {
+public class ToggleSwitch : PointsGiver, IResetable {
 
 	public float inactiveOffset = 0.07f;
 	
@@ -29,11 +29,12 @@ public class ToggleSwitch : PointsGiver {
 		gameObject.transform.position = _offPos;
 		_group = gameObject.transform.parent.GetComponent<ToggleSwitchGroup>();
 
+		// Register with GM for resetting
+		GameObject.Find("GameManager").GetComponent<GameManager>().AddResetableObject(this);
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	
+	public void Reset() {
+		this.active = false;
 	}
 
 	public void Toggle() {

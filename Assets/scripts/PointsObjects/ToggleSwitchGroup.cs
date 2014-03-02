@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class ToggleSwitchGroup : PointsGiver {
+public class ToggleSwitchGroup : PointsGiver, IResetable {
 
 	List<ToggleSwitch> _switches = new List<ToggleSwitch>();
 	List<bool> _currStates = new List<bool>();
@@ -9,13 +9,21 @@ public class ToggleSwitchGroup : PointsGiver {
 	// Use this for initialization
 	void Start () {
 		base.Start();
-		Reset();
-	}
 
-	public void Reset() {
 		foreach(ToggleSwitch ts in gameObject.GetComponentsInChildren<ToggleSwitch>()) {
 			_switches.Add(ts);
 			_currStates.Add(ts.active);
+		}
+
+		// Register with GM for resetting
+		GameObject.Find("GameManager").GetComponent<GameManager>().AddResetableObject(this);
+	}
+
+	public void Reset() {
+		// ToggleSwitches will register to reset themselves,
+		// so ToggleSwitchGroup just has to reset itself
+		for (int i = 0; i < _currStates.Count; ++i) {
+			_currStates[i] = false;
 		}
 	}
 	

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour {
 
@@ -16,6 +17,8 @@ public class GameManager : MonoBehaviour {
 	int _hiScore;
 	int _ballsRemaining = 2;
 
+	List<IResetable> _resetables = new List<IResetable>();
+
 	// Use this for initialization
 	void Start () {
 		_hiScore = PlayerPrefs.GetInt(PPKEY_HI_SCORE_1, 0);
@@ -30,6 +33,14 @@ public class GameManager : MonoBehaviour {
 	
 		if (Input.GetKeyUp(KeyCode.Escape))
 			Application.Quit();
+	}
+
+	/// <summary>
+	/// Adds a GameObject to the list of things to be reset at gameover
+	/// </summary>
+	/// <param name="go">Component to reset at gameover.</param>
+	public void AddResetableObject(IResetable component) {
+		_resetables.Add(component);
 	}
 
 	public void AddPoints(int points) {
@@ -49,7 +60,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void BallOver() {
-		//_ballsRemaining--;
+		_ballsRemaining--;
 		gate.Open();
 
 		if (_ballsRemaining >= 0) {
@@ -75,6 +86,13 @@ public class GameManager : MonoBehaviour {
 			setHiScoreText();
 		}
 		ballsRemainingTextObject.text = "Thanks for Playing!";
+		Reset();
+	}
+
+	void Reset() {
+		foreach (IResetable component in _resetables) {
+			component.Reset();
+		}
 	}
 
 	void setScoreText() {
