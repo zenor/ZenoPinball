@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 public class ToggleSwitchGroup : PointsGiver, IResetable {
 
+	public MonoBehaviour objectToTrigger;
+	ITriggerable _triggerable;
+
 	List<ToggleSwitch> _switches = new List<ToggleSwitch>();
 	List<bool> _currStates = new List<bool>();
 
@@ -17,6 +20,11 @@ public class ToggleSwitchGroup : PointsGiver, IResetable {
 
 		// Register with GM for resetting
 		GameObject.Find("GameManager").GetComponent<GameManager>().AddResetableObject(this);
+
+		// See if we have a triggerable object
+		if (objectToTrigger) {
+			_triggerable = (ITriggerable) objectToTrigger.GetComponent(typeof(ITriggerable));
+		}
 	}
 
 	public void Reset() {
@@ -58,10 +66,17 @@ public class ToggleSwitchGroup : PointsGiver, IResetable {
 		}
 		if (isComplete) {
 			AddPoints();
+			CallTrigger();
 			for (int i = 0; i < _switches.Count; ++i) {
 				_switches[i].active = false;
 				_currStates[i] = false;
 			}
+		}
+	}
+
+	void CallTrigger() {
+		if (_triggerable != null) {
+			_triggerable.Trigger();
 		}
 	}
 }
