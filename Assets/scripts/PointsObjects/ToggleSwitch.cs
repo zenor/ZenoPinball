@@ -30,7 +30,7 @@ public class ToggleSwitch : PointsGiver, IResetable {
 		_group = gameObject.transform.parent.GetComponent<ToggleSwitchGroup>();
 
 		// Register with GM for resetting
-		GameObject.Find("GameManager").GetComponent<GameManager>().AddResetableObject(this);
+		GameObject.Find("GameManager").GetComponent<GameManager>().AddResetableObject(this, GameManager.ResetableType.GameOver);
 	}
 	
 	public void Reset() {

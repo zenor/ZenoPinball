@@ -15,18 +15,26 @@ public class BreakOut : MonoBehaviour, ITriggerable, IResetable {
 	public int blocksVert = 8;
 	BreakOutBlock[] blocks;
 
+	public GameObject Guards;
+
 	const float xPos = -3.5f;
 
 	// Use this for initialization
 	void Start () {
+		// Register with GM for resetting
+		GameObject.Find("GameManager").GetComponent<GameManager>().AddResetableObject(this, GameManager.ResetableType.BallOver);
 		Setup();	
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		// for debug
-		if (Input.GetKeyUp(KeyCode.B))
-			Trigger();
+		if (Input.GetKeyUp(KeyCode.B)) {
+			if (!BreakoutMode.activeInHierarchy)
+				Trigger();
+			else
+				Reset ();
+		}
 	}
 
 	void Setup() {
@@ -58,15 +66,11 @@ public class BreakOut : MonoBehaviour, ITriggerable, IResetable {
 	}
 
 	public void Trigger() {
-		if (!BreakoutMode.activeInHierarchy) {
-			MainGameMode.SetActive(false);
-			BreakoutMode.SetActive(true);
-			InvokeRepeating("CountdownTimer", 1f, 1f);
-		} else {
-			Reset();
-			MainGameMode.SetActive(true);
-		}
-
+		MainGameMode.SetActive(false);
+		BreakoutMode.SetActive(true);
+		if (Guards != null)
+			Guards.SetActive(true);
+		InvokeRepeating("CountdownTimer", 1f, 1f);
 	}
 
 	public void Reset() {
@@ -76,11 +80,14 @@ public class BreakOut : MonoBehaviour, ITriggerable, IResetable {
 			block.gameObject.SetActive(true);
 		}
 		BreakoutMode.SetActive(false);
+		MainGameMode.SetActive(true);
+		if (Guards != null)
+			Guards.SetActive(false);
 	}
 
 	void CountdownTimer() {
 		if (--_timeLeft == 0) {
-			Trigger();
+			Reset();
 		}
 	}
 

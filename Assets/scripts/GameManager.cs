@@ -17,7 +17,10 @@ public class GameManager : MonoBehaviour {
 	int _hiScore;
 	int _ballsRemaining = 2;
 
-	List<IResetable> _resetables = new List<IResetable>();
+	List<IResetable> _resetablesGameOver = new List<IResetable>();
+	List<IResetable> _resetablesBallOver = new List<IResetable>();
+
+	public enum ResetableType {GameOver, BallOver};
 
 	// Use this for initialization
 	void Start () {
@@ -39,8 +42,11 @@ public class GameManager : MonoBehaviour {
 	/// Adds a GameObject to the list of things to be reset at gameover
 	/// </summary>
 	/// <param name="go">Component to reset at gameover.</param>
-	public void AddResetableObject(IResetable component) {
-		_resetables.Add(component);
+	public void AddResetableObject(IResetable component, ResetableType type) {
+		if (type == ResetableType.GameOver)
+			_resetablesGameOver.Add(component);
+		else if (type == ResetableType.BallOver)
+			_resetablesBallOver.Add(component);
 	}
 
 	public void AddPoints(int points) {
@@ -62,6 +68,10 @@ public class GameManager : MonoBehaviour {
 	public void BallOver() {
 		_ballsRemaining--;
 		gate.Open();
+
+		foreach (IResetable component in _resetablesBallOver) {
+			component.Reset();
+		}
 
 		if (_ballsRemaining >= 0) {
 			Message(Constants.Messages.BallOver);
@@ -95,7 +105,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void Reset() {
-		foreach (IResetable component in _resetables) {
+		foreach (IResetable component in _resetablesGameOver) {
 			component.Reset();
 		}
 		_score = 0;
