@@ -6,6 +6,9 @@ public class BreakOut : MonoBehaviour, ITriggerable, IResetable {
 	public GameObject MainGameMode;
 	public Transform Block;
 
+	public int SecondsToRun = 30;
+	int _timeLeft;
+
 	GameObject BreakoutMode;
 
 	public int blocksHoriz = 8;
@@ -27,6 +30,8 @@ public class BreakOut : MonoBehaviour, ITriggerable, IResetable {
 	}
 
 	void Setup() {
+		_timeLeft = SecondsToRun;
+
 		BreakoutMode = new GameObject("Blocks");
 		BreakoutMode.transform.parent = transform;
 		BreakoutMode.transform.localPosition = Vector3.zero;
@@ -43,6 +48,8 @@ public class BreakOut : MonoBehaviour, ITriggerable, IResetable {
 
 				int index = z * blocksHoriz + x;
 				blocks[index] = newBlock.GetComponent<BreakOutBlock>();
+				// make the blocks at the back worth more than the ones at the front
+				blocks[index].points *= (z + 1);
 			}
 		}
 		transform.localPosition = new Vector3(xPos, transform.position.y, transform.position.z);
@@ -54,6 +61,7 @@ public class BreakOut : MonoBehaviour, ITriggerable, IResetable {
 		if (!BreakoutMode.activeInHierarchy) {
 			MainGameMode.SetActive(false);
 			BreakoutMode.SetActive(true);
+			InvokeRepeating("CountdownTimer", 1f, 1f);
 		} else {
 			Reset();
 			MainGameMode.SetActive(true);
@@ -62,9 +70,21 @@ public class BreakOut : MonoBehaviour, ITriggerable, IResetable {
 	}
 
 	public void Reset() {
+		CancelInvoke("CountdownTimer");
+		_timeLeft = SecondsToRun;
 		foreach(BreakOutBlock block in blocks) {
 			block.gameObject.SetActive(true);
 		}
 		BreakoutMode.SetActive(false);
+	}
+
+	void CountdownTimer() {
+		if (--_timeLeft == 0) {
+			Trigger();
+		}
+	}
+
+	void OnGUI() {
+		GUI.Label(new Rect(10, 0, 100, 50), "Bonus Time: " + _timeLeft);
 	}
 }
